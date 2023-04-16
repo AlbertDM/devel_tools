@@ -18,7 +18,7 @@
 helpFunction()
 {
    echo ""
-   echo "Usage: $0 -n myContainerName -h myVirtM -v location"
+   echo "Usage: $0 -n "DdpkContainer" -h "DpdkRocky" -v "/home/albertdm/Workspace/Docker_containers/DpdkContainer""
    echo -e "\t-a Description of what is parameterA"
    echo -e "\t-b Description of what is parameterB"
    echo -e "\t-c Description of what is parameterC"
@@ -36,13 +36,20 @@ do
 done
 
 # Print helpFunction in case parameters are empty
-if [ -z "$paramName" ] || [ -z "$paraVmach" ] || [ -z "$paramLocation" ]
+if [ -z "$paramName" ] || [ -z "$paramVmach" ] || [ -z "$paramLocation" ]
 then
    echo "Some or all of the parameters are empty";
    helpFunction
 fi
 
 # Begin script in case all parameters are correct
+
+## Run Docker
+sudo docker run -dit --name "$paramName" -h "$paramVmach" -v "$paramLocation":/SharedFolder --net=host  rockylinux:9 /bin/bash
+
 echo "Container name: $paramName"
 echo "Virutal Machine name: $paramVmach"
 echo "Location: $paramLocation"
+
+docker start "$paramName"
+docker attach "$paramName"
